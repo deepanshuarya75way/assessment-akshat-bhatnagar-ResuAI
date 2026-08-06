@@ -90,7 +90,7 @@ uploads/
 # ===========================
 alembic/versions/__pycache__/
 alembic.ini
-
+app/auth/storage_state.json
 # ===========================
 # PyMuPDF Temporary Files
 # ===========================
