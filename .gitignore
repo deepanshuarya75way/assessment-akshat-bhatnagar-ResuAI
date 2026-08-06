@@ -1,0 +1,117 @@
+# ===========================
+# Python
+# ===========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# ===========================
+# Environment Variables
+# ===========================
+.env
+.env.*
+
+# ===========================
+# IDE
+# ===========================
+.vscode/
+.idea/
+*.code-workspace
+
+# ===========================
+# OS Files
+# ===========================
+.DS_Store
+Thumbs.db
+
+# ===========================
+# Logs
+# ===========================
+*.log
+logs/
+
+# ===========================
+# Python Build Files
+# ===========================
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ===========================
+# Testing
+# ===========================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ===========================
+# Jupyter
+# ===========================
+.ipynb_checkpoints/
+
+# ===========================
+# Playwright
+# ===========================
+playwright/.cache/
+playwright-report/
+test-results/
+
+# Browser authentication
+playwright/storage_state.json
+
+# ===========================
+# Google OAuth
+# ===========================
+token.pickle
+tokens/
+credentials.json
+credentials/
+
+# ===========================
+# Uploaded Files
+# ===========================
+app/uploads/
+uploads/
+
+# ===========================
+# SQLite (if used)
+# ===========================
+*.db
+*.sqlite3
+
+# ===========================
+# Alembic
+# ===========================
+alembic/versions/__pycache__/
+alembic.ini
+
+# ===========================
+# PyMuPDF Temporary Files
+# ===========================
+*.tmp
+
+# ===========================
+# Miscellaneous
+# ===========================
+*.bak
+*.swp
+*.swo
+
+# ===========================
+# Generated Documentation
+# ===========================
+site/
+
+# ===========================
+# Secrets
+# ===========================
+*.pem
+*.key
+*.crt
+*.p12
