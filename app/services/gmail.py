@@ -20,8 +20,8 @@ SCOPES = [
     "https://www.googleapis.com/auth/gmail.readonly"
 ]
 
-TOKEN_PATH = "token.pickle"
-CREDENTIALS_PATH = "credentials.json"
+TOKEN_PATH = "tokens/token.pickle"
+CREDENTIALS_PATH = "credentials/credentials.json"
 logger = logging.getLogger(__name__)
 
 

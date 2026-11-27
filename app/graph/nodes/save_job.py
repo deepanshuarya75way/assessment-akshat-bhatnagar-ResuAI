@@ -51,7 +51,7 @@ def save_job_node(state: WorkflowState):
             )
 
             return state
-
+        job_data=state["job"]
         existing = JobRepository.get_by_email(
             db,
             state["email_id"],
@@ -100,32 +100,29 @@ def save_job_node(state: WorkflowState):
             )
 
             return state
+        duplicate=JobRepository.find_duplicate(db,job_data)
+        if duplicate:
+            state["job_id"]=duplicate.id
+            state["status"]="Job_already_exists"
 
-        saved_job = JobRepository.create(
-            db,
-            job_data=state["job"],
-            email_id=state["email_id"],
-        )
 
-        state["job_id"] = saved_job.id
-
-        EmailRepository.update_processing_stage(
+            EmailRepository.update_processing_stage(
             db,
             state["email_id"],
-            "JOB_SAVED",
-        )
-
-        state["status"] = "JOB_SAVED"
-        logger.info(
-            "Saved new job for email %s job_id=%s company=%r role=%r",
-            state["email_id"],
-            saved_job.id,
-            saved_job.company,
-            saved_job.role,
-        )
+            state["status"],
+            )
+            logger.info("Duplicate job found. Reusing job ID %s",duplicate.id,)
         
+            return state
+    
+        saved_job=JobRepository.create(db,job_data=job_data,email_id=state["email_id"],)
+        state["job_id"]=saved_job.id
+        state["status"]="JOB_SAVED"
+        EmailRepository.update_processing_stage(
+            db,state["email_id"],state["status"],
+        )
+        logger.info("Job saved successfully with ID %s",saved_job.id)
         return state
-
     except Exception as e:
 
         db.rollback()

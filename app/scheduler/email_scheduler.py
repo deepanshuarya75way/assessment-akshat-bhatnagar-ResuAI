@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-
+from zoneinfo import ZoneInfo
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.schedulers.base import STATE_RUNNING
 
@@ -9,7 +9,7 @@ from app.repositories.email_repository import EmailRepository
 from app.services.email_processor import EmailProcessor
 from app.services.gmail import GmailService
 
-scheduler = BackgroundScheduler()
+scheduler = BackgroundScheduler(timezone=ZoneInfo("Asia/Kolkata"))
 logger = logging.getLogger(__name__)
 
 

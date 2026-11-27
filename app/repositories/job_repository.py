@@ -1,7 +1,5 @@
 from sqlalchemy.orm import Session
-
 from app.models.job import Job
-
 
 class JobRepository:
 
@@ -46,10 +44,29 @@ class JobRepository:
             .filter(Job.email_id == email_id)
             .first()
         )
+        # changes made
+    @staticmethod
+    def find_duplicate(db:Session,job_data:dict):
+        company=(job_data.get("company") or "").strip().lower()
+        role=(job_data.get("role")or "").strip().lower()
+        apply_url=(job_data.get("apply_url")or "").strip().lower()
+        jobs=db.query(Job).all()
+        for job in jobs:
+            old_url=(job.apply_url or "").strip().lower()
+            if apply_url and old_url:
+                if apply_url==old_url:
+                    return job
+            elif company and role:
+                old_company=(job.company or "").strip().lower()
+                old_role=(job.role or "").strip().lower()
+                if company==old_company and role ==old_role:
+                    return job
+        return None
+
 
     @staticmethod
     def get_all(db: Session):
-        return (
+        return (  
             db.query(Job)
             .order_by(Job.created_at.desc())
             .all()
