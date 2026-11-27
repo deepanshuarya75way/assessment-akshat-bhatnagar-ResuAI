@@ -63,6 +63,14 @@ class JobRepository:
                     return job
         return None
 
+    @staticmethod
+    def update_missing_fields(db:Session,job:Job,job_data:dict):
+        for field,value in job_data.items():
+            if value and not getattr(job,field):
+                setattr(job,field,value)
+        db.commit()
+        db.refresh(job)
+        return job
 
     @staticmethod
     def get_all(db: Session):

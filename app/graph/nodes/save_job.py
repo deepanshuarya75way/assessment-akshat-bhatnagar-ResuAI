@@ -102,6 +102,7 @@ def save_job_node(state: WorkflowState):
             return state
         duplicate=JobRepository.find_duplicate(db,job_data)
         if duplicate:
+            JobRepository.update_missing_fields(db,duplicate,job_data,)
             state["job_id"]=duplicate.id
             state["status"]="Job_already_exists"
 
