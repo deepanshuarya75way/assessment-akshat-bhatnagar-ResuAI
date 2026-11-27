@@ -37,7 +37,7 @@ class BrowserAuth:
             )
 
             browser.close()
-
+            
             print("Storage state saved successfully.")
 
 

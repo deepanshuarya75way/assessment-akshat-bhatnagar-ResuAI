@@ -25,24 +25,16 @@ class PlaywrightService:
 
         async with async_playwright() as p:
 
-            browser = await p.chromium.launch(
+            context = await p.chromium.launch_persistent_context(
+                user_data_dir="app/auth/storage_state.json",
                 headless=True
             )
 
             try:
-
-                if STORAGE_STATE.exists():
-
-                    context = await browser.new_context(
-                        storage_state=str(STORAGE_STATE)
-                    )
-
-                else:
-
-                    context = await browser.new_context()
-
-                page = await context.new_page()
-
+                page=context.pages[0] if context.pages else await context.new_pages()
+                
+                print(page.url)
+                print(await page.title())
                 await page.goto(
                     url,
                     wait_until="domcontentloaded",
@@ -50,7 +42,8 @@ class PlaywrightService:
                 )
 
                 await page.wait_for_timeout(3000)
-
+                print(page.url)
+                print(await page.title())
                 current_url = page.url.lower()
 
                 if (
@@ -59,10 +52,7 @@ class PlaywrightService:
                     or "microsoftonline" in current_url
                 ):
 
-                    await page.screenshot(
-                        path="debug_login.png",
-                        full_page=True,
-                    )
+                  
 
                     raise Exception(
                         "RecruitSage session expired. "
@@ -99,7 +89,7 @@ class PlaywrightService:
 
             finally:
 
-                await browser.close()
+                await context.close()
 
     def scrape(self, url: str) -> dict:
         with ThreadPoolExecutor(max_workers=1) as executor:
